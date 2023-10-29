@@ -1,0 +1,71 @@
+Ostaa Part 1 To-Do List:
+Server-Side Tasks
+
+    Set up the database schema:
+        Define Item schema (title, description, image, price, stat)
+        Define User schema (username, password, listings (item IDs), purchases (item IDs))
+
+    Server Configuration:
+        Set up express server.
+        Configure mongoose for database interactions.
+
+    Server Request Handling:
+        Implement /get/users/ (GET) - Returns JSON array of all users.
+        Implement /get/items/ (GET) - Returns JSON array of all items.
+        Implement /get/listings/:username (GET) - Returns all listings for a user.
+        Implement /get/purchases/:username (GET) - Returns all purchases for a user.
+        Implement /search/users/:keyword (GET) - Search for users by keyword.
+        Implement /search/items/:keyword (GET) - Search for items by keyword.
+        Implement /add/user/ (POST) - Add a new user.
+        Implement /add/item/:username (POST) - Add a new item to a user's listings.
+
+    Database Pre-population:
+        Pre-populate with at least 4 items.
+        Pre-populate with at least 2 users.
+
+    Testing & Validation:
+        Test all GET and POST routes.
+        Validate data inputs on server-side.
+
+Client-Side Tasks (Simple Client for Testing)
+
+    Basic Setup:
+        Create index.html with forms for adding users and items.
+        Write basic CSS for styling the client page.
+
+    JavaScript (Client-side logic):
+        Implement AJAX requests (using fetch or XHR) to interact with the server.
+        Handle form submissions and attach them to AJAX calls for user/item addition.
+        Ensure proper updating/handling of the DOM upon receiving responses.
+
+    Client-Side Validation & Error Handling:
+        Validate form inputs before submission.
+        Provide user feedback on success/error.
+
+Deployment and Testing
+
+    Digital Ocean Deployment:
+        Deploy application on Digital Ocean.
+        Ensure all routes and database interactions work as expected.
+
+    Create live.txt:
+        Add a file with the live address of the web application.
+
+Documentation and Submission
+
+    Project Documentation:
+        Document the file structure and setup instructions.
+        Include comments in code for clarity.
+
+    Final Steps:
+        Review assignment requirements.
+        Zip the entire ostaa directory.
+        Submit on Gradescope before the due date.
+
+Additional Notes:
+
+    Make sure to adhere to the style guide specified in your class.
+    Double-check security practices, especially around user authentication and password handling.
+    Leave the app running for at least 72 hours after submission for testing and evaluation.
+
+This list is structured for ease of copying, editing, and checking off tasks.
