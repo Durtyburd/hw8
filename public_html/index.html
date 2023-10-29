@@ -4,16 +4,47 @@ Date: October 28
 Purpose: This will be the html document for our chat website.
  --> 
 
- <!DOCTYPE html>
- <html lang="en">
- <head>
-     <meta charset="UTF-8">
-     <link rel="stylesheet" href="styles.css">
-     <title>Ostaa</title>
- </head>
- <body>
-     <script src="script.js"></script>
-     <script src="../server.js"></script>
- </body>
- </html>
- 
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ostaa</title>
+  </head>
+  <body>
+    <h1>Add User</h1>
+    <form action="" method="post">
+      <label for="username">Username:</label><br />
+      <input type="text" id="username" name="username" required /><br />
+
+      <label for="password">Password:</label><br />
+      <input type="password" id="password" name="password" required /><br />
+
+      <input type="submit" value="Add User" />
+    </form>
+
+    <h1>Add Item</h1>
+    <form action="" method="post">
+      <label for="title">Title:</label><br />
+      <input type="text" id="title" name="title" required /><br />
+
+      <label for="description">Description:</label><br />
+      <textarea id="description" name="description" required></textarea><br />
+
+      <label for="image">Image:</label><br />
+      <input type="file" id="image" name="image" accept="image/*" /><br />
+
+      <label for="price">Price:</label><br />
+      <input type="number" id="price" name="price" step="0.01" required /><br />
+
+      <label for="status">Status:</label><br />
+      <select id="status" name="status">
+        <option value="available">Available</option>
+        <option value="unavailable">Unavailable</option></select
+      ><br />
+
+      <label for="usernameItem">Username:</label><br />
+      <input type="text" id="usernameItem" name="username" required /><br />
+
+      <input type="submit" value="Add Item" />
+    </form>
+  </body>
+</html>
