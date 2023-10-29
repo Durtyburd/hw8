@@ -40,8 +40,8 @@ const userSchema = new Schema({
     purchases: [{ type: Schema.Types.ObjectId, ref: 'item' }]
 })
 
-const Item = mongoose.model('item', itemSchema);
-const User = mongoose.model('user', userSchema);
+const item = mongoose.model('item', itemSchema);
+const user = mongoose.model('user', userSchema);
 
 // export for use in other files
 module.exports = {item , user};
