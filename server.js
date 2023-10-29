@@ -36,9 +36,12 @@ const itemSchema = new mongoose.Schema({
 const userSchema = new Schema({
     username: String,
     password: String,
-    listings: 
-    purchase: 
+    listings: [{ type: Schema.Types.ObjectId, ref: 'item' }],
+    purchases: [{ type: Schema.Types.ObjectId, ref: 'item' }]
 })
+
+const Item = mongoose.model('item', itemSchema);
+const User = mongoose.model('user', userSchema);
 
 
 // running server at 3000
