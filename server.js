@@ -43,6 +43,9 @@ const userSchema = new Schema({
 const Item = mongoose.model('item', itemSchema);
 const User = mongoose.model('user', userSchema);
 
+// export for use in other files
+module.exports = {item , user};
+
 
 // running server at 3000
 app.listen(80, () => {
