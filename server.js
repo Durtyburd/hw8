@@ -22,6 +22,23 @@ mongoose.connect('to be added later', {
 app.use(express.static('public_html'));
 
 
+// mongo schema
+// items
+const itemSchema = new mongoose.Schema({
+    title: String,
+    description: String,
+    image: String,
+    price: Number,
+    stat: String
+});
+
+// user
+const userSchema = new Schema({
+    username: String,
+    password: String,
+    listings: 
+    purchase: 
+})
 
 
 // running server at 3000
