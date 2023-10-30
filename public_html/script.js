@@ -1,7 +1,7 @@
 // Author: Hunter Copening, Seth Perritt
 // Date: October 28
 // Purpose: This javascript file will take care of the webpages general functionality by updating
-// changes in real time.
+// changes in real time onto the marketplace
 
 
 //Constants
@@ -16,14 +16,13 @@ const status = document.getElementById("status");
 const usernameItem = document.getElementById("usernameItem");
 const itemSubmit = document.getElementById("itemSubmit");
 
-///////////////////////////////////////////////////////////////////////
 async function submitUser(e) {
   e.preventDefault();
   const user = {
     username: username.value,
     password: password.value,
-    // listings: [],
-    // purchases: [],
+    listings: [],
+    purchases: [],
   };
 
   const res = await fetch("/add/users/", {
@@ -43,9 +42,10 @@ async function submitItem(e) {
     image: image.value,
     price: price.value,
     status: status.value,
+    username: usernameItem.value,
   };
 
-  const res = await fetch("/add/items/", {
+  const res = await fetch(`/add/items/${usernameItem.value}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -54,7 +54,6 @@ async function submitItem(e) {
   });
 }
 
-//Event listener for form submit button
+//Event listener for form submit buttons
 userSubmit.addEventListener("click", submitUser);
-
-itemSubmit.addEventListener("click", submitUser);
+itemSubmit.addEventListener("click", submitItem);
