@@ -1,13 +1,11 @@
 // Author: Hunter Copening, Seth Perritt
 // Date: October 28
-// Purpose: This javascript file will be the server for our chat website, it will store chats and allow
-// us to be reachable.
-
+// Purpose: This javascript file is the server for our virtual marketplace
 
 //Constant Variables
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = 420;
 const mongoose = require("mongoose");
 
 //Connecting to MongoDB
@@ -17,22 +15,20 @@ mongoose.connect(
 
 //MongoDB Schemas
 const Schema = mongoose.Schema;
-
 const itemSchema = new Schema({
   title: String,
   description: String,
   image: String,
   price: Number,
   status: String,
+  username: String,
 });
-
 const userSchema = new Schema({
   username: String,
   password: String,
-  listings: [{ listing:{ type: Schema.Types.ObjectId, ref: "item" }}],
-  purchases: [{ purchase:{ type: Schema.Types.ObjectId, ref: "item" }}],
+  listings: [{ type: Schema.Types.ObjectId, ref: "item" }],
+  purchases: [{ type: Schema.Types.ObjectId, ref: "item" }],
 });
-
 const Item = mongoose.model("item", itemSchema);
 const User = mongoose.model("user", userSchema);
 
@@ -59,28 +55,70 @@ app.get("/get/items/", async (req, res) => {
   }
 });
 
-app.get("/get/listings/USERNAME", (req, res) => {}); //username can vary
-app.get("/get/purchases/USERNAME", (req, res) => {}); //username can vary
-app.get("/search/users/KEYWORD", (req, res) => {}); //keyword can vary
-app.get("/search/items/KEYWORD", (req, res) => {}); //keyword can vary
+app.get("/get/listings/:username", async (req, res) => {
+  const username = req.params.username;
+  const userWithListings = await User.findOne({ username }).populate(
+    "listings"
+  );
+  res.json(userWithListings.listings);
+});
+
+app.get("/get/purchases/:username", async (req, res) => {
+  const username = req.params.username;
+  const userWithPurchases = await User.findOne({ username }).populate(
+    "purchases"
+  );
+  res.json(userWithPurchases.purchases);
+});
+
+app.get("/search/users/:keyword", async (req, res) => {
+  const keyword = req.params.keyword;
+  console.log(keyword);
+  const users = await User.find({
+    username: { $regex: keyword, $options: "i" },
+  });
+  res.json(users);
+});
+
+app.get("/search/items/:keyword", async (req, res) => {
+  const keyword = req.params.keyword;
+  const items = await Item.find({
+    title: { $regex: keyword, $options: "i" },
+  });
+  res.json(items);
+});
 
 //POST
 app.post("/add/users/", async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, listings, purchases } = req.body;
   const newEntry = new User({
     username: username,
     password: password,
+    listings: listings,
+    purchases: purchases,
   });
   await newEntry.save();
   res.json({ result: true });
 });
 
-app.post("/add/item/USERNAME", (req, res) => {
-  const { username } = req.params;
-  const { title, description, image, price, status} = req.body;
-  
-}); //username can vary
+app.post("/add/items/:username", async (req, res) => {
+  const username = req.params.username;
+  const { title, description, image, price, status } = req.body;
+  const newItem = new Item({
+    title,
+    description,
+    image,
+    price,
+    status,
+    username,
+  });
+  await newItem.save();
+  await User.findOneAndUpdate(
+    { username: username },
+    { $push: { listings: newItem._id } }
+  );
+});
 
 app.listen(port, () => {
-  console.log(`Running on port http://localhost:${port}`);
+  console.log(`App listening on port http://localhost:${port}`);
 });
