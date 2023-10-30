@@ -4,50 +4,87 @@
 // us to be reachable.
 
 
-// modules
+//Constant Variables
 const express = require("express");
 const app = express();
+const port = 3000;
 const mongoose = require("mongoose");
+
+//Connecting to MongoDB
+mongoose.connect(
+  "mongodb+srv://american924:monkeyBusiness@chattyapp.ycqodow.mongodb.net/"
+);
+
+//MongoDB Schemas
+const Schema = mongoose.Schema;
+
+const itemSchema = new Schema({
+  title: String,
+  description: String,
+  image: String,
+  price: Number,
+  status: String,
+});
+
+const userSchema = new Schema({
+  username: String,
+  password: String,
+  // listings: [{ type: Schema.Types.ObjectId, ref: "item" }],
+  // purchases: [{ type: Schema.Types.ObjectId, ref: "item" }],
+});
+
+const Item = mongoose.model("item", itemSchema);
+const User = mongoose.model("user", userSchema);
+
+//Middleware
+app.use(express.static("public_html"));
 app.use(express.json());
 
-
-// using mongo atlas
-mongoose.connect('to be added later', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+//GET
+app.get("/get/users/", async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.json(users);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
-
-// serve static files
-app.use(express.static('public_html'));
-
-
-// mongo schema
-// items
-const itemSchema = new mongoose.Schema({
-    title: String,
-    description: String,
-    image: String,
-    price: Number,
-    stat: String
+app.get("/get/items/", async (req, res) => {
+  try {
+    const items = await Item.find({});
+    res.json(items);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
-// user
-const userSchema = new Schema({
-    username: String,
-    password: String,
-    listings: [{ type: Schema.Types.ObjectId, ref: 'item' }],
-    purchases: [{ type: Schema.Types.ObjectId, ref: 'item' }]
-})
+app.get("/get/listings/USERNAME", (req, res) => {}); //username can vary
+app.get("/get/purchases/USERNAME", (req, res) => {}); //username can vary
+app.get("/search/users/KEYWORD", (req, res) => {}); //keyword can vary
+app.get("/search/items/KEYWORD", (req, res) => {}); //keyword can vary
 
-const item = mongoose.model('item', itemSchema);
-const user = mongoose.model('user', userSchema);
+//POST
+app.post("/add/users/", async (req, res) => {
+  const { username, password } = req.body;
+  const newEntry = new User({
+    username: username,
+    password: password,
+  });
+  await newEntry.save();
+  res.json({ result: true });
+});
 
-// export for use in other files
-module.exports = {item , user};
+app.post("/add/item/USERNAME", (req, res) => {
+  // const { username, password } = req.body;
+  // const newEntry = new User({
+  //   username: username,
+  //   password: password,
+  // });
+  // await newEntry.save();
+  // res.json({ result: true });
+}); //username can vary
 
-
-// running server at 3000
-app.listen(80, () => {
-    console.log(`Server is running on port 80`);
+app.listen(port, () => {
+  console.log(`Example app listening on port http://localhost:${port}`);
 });
