@@ -17,7 +17,7 @@ const usernameItem = document.getElementById("usernameItem");
 const itemSubmit = document.getElementById("itemSubmit");
 
 // function to handle user form submission
-// creates user object and sends it to the server
+// takes form entries, creates user object and sends it to the server
 async function submitUser(e) {
   e.preventDefault();
   const user = {
@@ -37,7 +37,7 @@ async function submitUser(e) {
 }
 
 // function to handle item submission
-// creates item object and sends it to the server
+// takes form entries, creates item object and sends it to the server
 async function submitItem(e) {
   e.preventDefault();
   const item = {
