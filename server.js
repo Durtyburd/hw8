@@ -29,8 +29,8 @@ const itemSchema = new Schema({
 const userSchema = new Schema({
   username: String,
   password: String,
-  // listings: [{ type: Schema.Types.ObjectId, ref: "item" }],
-  // purchases: [{ type: Schema.Types.ObjectId, ref: "item" }],
+  listings: [{ listing:{ type: Schema.Types.ObjectId, ref: "item" }}],
+  purchases: [{ purchase:{ type: Schema.Types.ObjectId, ref: "item" }}],
 });
 
 const Item = mongoose.model("item", itemSchema);
