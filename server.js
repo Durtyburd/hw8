@@ -2,7 +2,7 @@
 // Date: October 28
 // Purpose: This javascript file is the server for our virtual marketplace
 
-//Constant Variables
+//Constant Variables, required modules
 const express = require("express");
 const app = express();
 const port = 420;
@@ -15,7 +15,7 @@ mongoose.connect(
 
 //MongoDB Schemas
 const Schema = mongoose.Schema;
-const itemSchema = new Schema({
+const itemSchema = new Schema({ // item schema
   title: String,
   description: String,
   image: String,
@@ -23,12 +23,13 @@ const itemSchema = new Schema({
   status: String,
   username: String,
 });
-const userSchema = new Schema({
+const userSchema = new Schema({// user schema
   username: String,
   password: String,
   listings: [{ type: Schema.Types.ObjectId, ref: "item" }],
   purchases: [{ type: Schema.Types.ObjectId, ref: "item" }],
 });
+// creating models for both schema
 const Item = mongoose.model("item", itemSchema);
 const User = mongoose.model("user", userSchema);
 
@@ -36,7 +37,7 @@ const User = mongoose.model("user", userSchema);
 app.use(express.static("public_html"));
 app.use(express.json());
 
-//GET
+//GET method for getting all users
 app.get("/get/users/", async (req, res) => {
   try {
     const users = await User.find({});
@@ -46,6 +47,7 @@ app.get("/get/users/", async (req, res) => {
   }
 });
 
+// GET method for getting all items
 app.get("/get/items/", async (req, res) => {
   try {
     const items = await Item.find({});
@@ -55,6 +57,7 @@ app.get("/get/items/", async (req, res) => {
   }
 });
 
+// GET method for getting all listings for specific user
 app.get("/get/listings/:username", async (req, res) => {
   const username = req.params.username;
   const userWithListings = await User.findOne({ username }).populate(
@@ -63,6 +66,7 @@ app.get("/get/listings/:username", async (req, res) => {
   res.json(userWithListings.listings);
 });
 
+// GET method for getting all purchases for specific user
 app.get("/get/purchases/:username", async (req, res) => {
   const username = req.params.username;
   const userWithPurchases = await User.findOne({ username }).populate(
@@ -71,6 +75,7 @@ app.get("/get/purchases/:username", async (req, res) => {
   res.json(userWithPurchases.purchases);
 });
 
+// GET method for getting all users by keyword
 app.get("/search/users/:keyword", async (req, res) => {
   const keyword = req.params.keyword;
   console.log(keyword);
@@ -80,6 +85,7 @@ app.get("/search/users/:keyword", async (req, res) => {
   res.json(users);
 });
 
+// GET method for getting all items by keyword
 app.get("/search/items/:keyword", async (req, res) => {
   const keyword = req.params.keyword;
   const items = await Item.find({
@@ -88,7 +94,7 @@ app.get("/search/items/:keyword", async (req, res) => {
   res.json(items);
 });
 
-//POST
+//POST method for adding a new user
 app.post("/add/users/", async (req, res) => {
   const { username, password, listings, purchases } = req.body;
   const newEntry = new User({
@@ -101,6 +107,7 @@ app.post("/add/users/", async (req, res) => {
   res.json({ result: true });
 });
 
+//POST method for adding item to users listings
 app.post("/add/items/:username", async (req, res) => {
   const username = req.params.username;
   const { title, description, image, price, status } = req.body;
@@ -115,10 +122,11 @@ app.post("/add/items/:username", async (req, res) => {
   await newItem.save();
   await User.findOneAndUpdate(
     { username: username },
-    { $push: { listings: newItem._id } }
+    { $push: { listings: newItem._id } } // adds the new item to the users listings
   );
 });
 
+// starting the server
 app.listen(port, () => {
   console.log(`App listening on port http://localhost:${port}`);
 });
