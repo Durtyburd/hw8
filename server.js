@@ -82,5 +82,5 @@ app.post("/add/item/USERNAME", (req, res) => {
 }); //username can vary
 
 app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}`);
+  console.log(`Running on port http://localhost:${port}`);
 });
