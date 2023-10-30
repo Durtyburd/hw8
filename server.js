@@ -76,13 +76,9 @@ app.post("/add/users/", async (req, res) => {
 });
 
 app.post("/add/item/USERNAME", (req, res) => {
-  // const { username, password } = req.body;
-  // const newEntry = new User({
-  //   username: username,
-  //   password: password,
-  // });
-  // await newEntry.save();
-  // res.json({ result: true });
+  const { username } = req.params;
+  const { title, description, image, price, status} = req.body;
+  
 }); //username can vary
 
 app.listen(port, () => {
