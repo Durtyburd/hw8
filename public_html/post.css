@@ -1,0 +1,33 @@
+/*
+Author: Hunter Copening, Seth Perritt
+Date: November 5
+Purpose: this is the CSS styles page for post.html
+*/
+
+
+body{
+    background-color: #ddf2fd;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-left: 20px;
+}
+
+#page {
+    height: 100vh; 
+  }
+
+form label,
+form input,
+form input[type="submit"] {
+    margin-bottom: 30px; 
+}
+
+
+#header{
+    font-size: 40px;
+    color: rgb(54, 54, 165);
+}
+
+#postHeader{
+    font-size: 30px;
+}
+
