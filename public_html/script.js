@@ -12,7 +12,6 @@ const title = document.getElementById("title");
 const description = document.getElementById("description");
 const image = document.getElementById("imageName");
 const price = document.getElementById("price");
-const status = document.getElementById("status");
 const usernameItem = document.getElementById("usernameItem");
 const itemSubmit = document.getElementById("itemSubmit");
 
@@ -47,7 +46,7 @@ async function submitItem(e) {
     description: description.value,
     image: image.value,
     price: price.value,
-    status: status.value,
+    status: "SALE",
     username: usernameItem.value,
   };
 
