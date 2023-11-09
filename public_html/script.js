@@ -3,7 +3,6 @@
 // Purpose: This javascript file will take care of the webpages general functionality by updating
 // changes in real time onto the marketplace
 
-
 //Constants
 const username = document.getElementById("username");
 const password = document.getElementById("password");
@@ -98,44 +97,39 @@ item.addEventListener("click", submitItem);
 
 ////
 
+// Make sure to pass the event parameter
 async function performSignIn(e) {
-  e.preventDefault(); // prevent the default form submission behavior
+  e.preventDefault(); // This needs to be the first call
 
   const auth = {
     username: usernameLogin.value,
     password: passwordLogin.value,
   };
 
-  console.log(auth);
   try {
     const response = await fetch("/", {
+      // Confirm this is the correct endpoint
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(auth), // convert the auth object into a JSON string
+      body: JSON.stringify(auth),
     });
 
-    // Here, handle the response accordingly
     if (response.ok) {
-      const data = await response.json(); // or handle other response types if necessary
-      console.log(data);
-      // handle redirection if necessary, or other logic upon successful response
+      // Assuming your server redirects upon successful login
+      window.location.href = "/home"; // Modify according to your successful login path
     } else {
-      // handle errors, for example, show a message to the user
-      console.error("Error:", response.statusText);
+      // Handle error, show a message to the user
+      alert("Login failed: " + response.statusText);
     }
   } catch (error) {
-    console.error("Network error:", error);
+    alert("Network error: " + error.message);
   }
-  test();
 }
 
-function test() {
-  alert("hello");
-  console.log("hello");
-}
+document.getElementById("loginForm").addEventListener("submit", performSignIn);
 
-userSubmitLogin.addEventListener("click", performSignIn);
+//////////
 
 //////////
