@@ -1,22 +1,18 @@
-// Author: Hunter Copening, Seth Perritt
-// Date: October 28
-// Purpose: This javascript file will take care of the webpages general functionality by updating
-// changes in real time onto the marketplace
-
-
 //Constants
 const username = document.getElementById("username");
 const password = document.getElementById("password");
 const userSubmit = document.getElementById("userSubmit");
+const userSubmitLogin = document.getElementById("userSubmit_login");
+const usernameLogin = document.getElementById("username_login");
+const passwordLogin = document.getElementById("password_login");
 const title = document.getElementById("title");
 const description = document.getElementById("description");
 const image = document.getElementById("imageName");
 const price = document.getElementById("price");
+const status = document.getElementById("status");
 const usernameItem = document.getElementById("usernameItem");
 const itemSubmit = document.getElementById("itemSubmit");
 
-// function to handle user form submission
-// takes form entries, creates user object and sends it to the server
 async function submitUser(e) {
   e.preventDefault();
   const user = {
@@ -33,14 +29,12 @@ async function submitUser(e) {
     },
     body: JSON.stringify(user),
   });
+
+  newUserCreated();
 }
 
-// function to handle item submission
-// takes form entries, creates item object and sends it to the server
 async function submitItem(e) {
   e.preventDefault();
-
-  // create item object
   const item = {
     title: title.value,
     description: description.value,
@@ -67,6 +61,67 @@ async function submitItem(e) {
     }
 }
 
+function newUserCreated() {
+  alert("User Created");
+  password.value = "";
+  username.value = "";
+}
+
 //Event listener for form submit buttons
 userSubmit.addEventListener("click", submitUser);
 itemSubmit.addEventListener("click", submitItem);
+
+////
+
+////
+
+////
+
+////
+
+////
+
+////
+
+////
+
+////
+
+////
+
+////
+
+// Example client-side JavaScript code using fetch API to handle sign-in
+async function performSignIn(e) {
+  e.preventDefault();
+
+  const auth = {
+    username: document.getElementById("username").value,
+    password: document.getElementById("password").value,
+  };
+
+  try {
+    const response = await fetch("/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(auth),
+    });
+    if (response.ok) {
+      // If the sign-in was successful, reload the page to reflect the change
+      window.location.reload();
+    } else {
+      // If sign-in was not successful, handle errors here
+      const errorText = await response.text();
+      alert(errorText);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+// Assuming you want to add this to a click event on a button with the id 'signInButton'
+userSubmitLogin.addEventListener("click", performSignIn);
+
+//////////
