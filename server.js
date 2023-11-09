@@ -1,3 +1,8 @@
+// Author: Hunter Copening, Seth Perritt
+// Date: October 28
+// Purpose: This javascript file is the server for our virtual marketplace
+
+
 //Constant Variables
 const express = require("express");
 const app = express();
