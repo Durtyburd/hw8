@@ -43,6 +43,7 @@ async function submitUser(e) {
 //Item Submit - add item
 async function submitItem(e) {
   e.preventDefault();
+  const usernameItemValue = localStorage.getItem('username'); 
   const item = {
     title: title.value,
     description: description.value,
