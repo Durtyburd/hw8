@@ -1,46 +1,40 @@
  <!-- 
 Author: Hunter Copening, Seth Perritt
 Date: November 5
-Purpose: This is the html page for posting a item
+Purpose: This will be the html document the Ostaa marketplace
  --> 
 
  <!DOCTYPE html>
  <html lang="en">
    <head>
      <meta charset="UTF-8">
-     <title>OstaaPost</title>
-     <link rel="stylesheet" href="post.css" />
+     <title>OstaaHome</title>
+     <link rel="stylesheet" href="home.css" />
    </head>
    <body>
-        <div id="page">
-            <h1 id="header">Ostaa</h1><br>
-            <h1 id="postHeader">Add a Post</h1><br>
-            <form id="item" onsubmit="submitItem(event)">
-                <label for="title">Title</label>
-                <input type="text" id="title" name="title" required><br>
+        <div id="header">
+            <h1 id="ostaa">Ostaa</h1>
+        </div>
+        <div id="content">
 
-                <label for="description">Desc</label>
-                <input type="text" id="description" name="description" required><br>
-
-                <label for="price">Price</label>
-                <input type="text" id="price" name="price" required><br>
-
-                <label for="status">Status</label>
-                <input type="text" id="status" name="status" required><br>
-
-                <label for="image">Choose file</label>
-                <input type="file" id="image" name="image"><br>
-
-                <label for="imageName">Image Name</label>
-                <input type="text" id="imageName" name="imageName" required>
-
-
-                <input type="submit" id="itemSubmit" value="Create post">
-            </form>
-
-            
+          <div id="itemview">
+              <h1 id="optionsh1">Welcome! What would you like to do?</h1><br>
+              <form>
+                  <input type="text" id="searchList" name="searchList">
+                  <input type="submit" name="searchList" id="searchList" value="Search Listings"><br>
+              </form>
+              <button type="button">View your Listings</button><br>
+              <button type="button">View your Purchases</button><br>
+              <a href="./post.html">
+                <button type="button">Create a Listing</button><br>
+              </a>
+          </div>
+          <div id="options">
+          </div>
         </div>
         <script src="script.js" async defer></script>
    </body>
  </html>
  
+
+
