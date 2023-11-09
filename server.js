@@ -1,12 +1,10 @@
-// Author: Hunter Copening, Seth Perritt
-// Date: October 28
-// Purpose: This javascript file is the server for our virtual marketplace
-
-//Constant Variables, required modules
+//Constant Variables
 const express = require("express");
 const app = express();
-const port = 420;
+const port = 3000;
 const mongoose = require("mongoose");
+const session = require("express-session");
+const bcrypt = require("bcrypt");
 
 //Connecting to MongoDB
 mongoose.connect(
@@ -15,7 +13,7 @@ mongoose.connect(
 
 //MongoDB Schemas
 const Schema = mongoose.Schema;
-const itemSchema = new Schema({ // item schema
+const itemSchema = new Schema({
   title: String,
   description: String,
   image: String,
@@ -23,13 +21,12 @@ const itemSchema = new Schema({ // item schema
   status: String,
   username: String,
 });
-const userSchema = new Schema({// user schema
+const userSchema = new Schema({
   username: String,
   password: String,
   listings: [{ type: Schema.Types.ObjectId, ref: "item" }],
   purchases: [{ type: Schema.Types.ObjectId, ref: "item" }],
 });
-// creating models for both schema
 const Item = mongoose.model("item", itemSchema);
 const User = mongoose.model("user", userSchema);
 
@@ -37,7 +34,25 @@ const User = mongoose.model("user", userSchema);
 app.use(express.static("public_html"));
 app.use(express.json());
 
-//GET method for getting all users
+////////////
+app.use(
+  session({
+    secret: "your_secret_key",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+// Function to require authentication
+function requireAuth(req, res, next) {
+  if (!req.session.user) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  next();
+}
+///////////////////
+
+//GET
 app.get("/get/users/", async (req, res) => {
   try {
     const users = await User.find({});
@@ -47,7 +62,6 @@ app.get("/get/users/", async (req, res) => {
   }
 });
 
-// GET method for getting all items
 app.get("/get/items/", async (req, res) => {
   try {
     const items = await Item.find({});
@@ -57,7 +71,6 @@ app.get("/get/items/", async (req, res) => {
   }
 });
 
-// GET method for getting all listings for specific user
 app.get("/get/listings/:username", async (req, res) => {
   const username = req.params.username;
   const userWithListings = await User.findOne({ username }).populate(
@@ -66,7 +79,6 @@ app.get("/get/listings/:username", async (req, res) => {
   res.json(userWithListings.listings);
 });
 
-// GET method for getting all purchases for specific user
 app.get("/get/purchases/:username", async (req, res) => {
   const username = req.params.username;
   const userWithPurchases = await User.findOne({ username }).populate(
@@ -75,7 +87,6 @@ app.get("/get/purchases/:username", async (req, res) => {
   res.json(userWithPurchases.purchases);
 });
 
-// GET method for getting all users by keyword
 app.get("/search/users/:keyword", async (req, res) => {
   const keyword = req.params.keyword;
   console.log(keyword);
@@ -85,7 +96,6 @@ app.get("/search/users/:keyword", async (req, res) => {
   res.json(users);
 });
 
-// GET method for getting all items by keyword
 app.get("/search/items/:keyword", async (req, res) => {
   const keyword = req.params.keyword;
   const items = await Item.find({
@@ -94,7 +104,7 @@ app.get("/search/items/:keyword", async (req, res) => {
   res.json(items);
 });
 
-//POST method for adding a new user
+//POST
 app.post("/add/users/", async (req, res) => {
   const { username, password, listings, purchases } = req.body;
   const newEntry = new User({
@@ -107,7 +117,6 @@ app.post("/add/users/", async (req, res) => {
   res.json({ result: true });
 });
 
-//POST method for adding item to users listings
 app.post("/add/items/:username", async (req, res) => {
   const username = req.params.username;
   const { title, description, image, price, status } = req.body;
@@ -122,11 +131,45 @@ app.post("/add/items/:username", async (req, res) => {
   await newItem.save();
   await User.findOneAndUpdate(
     { username: username },
-    { $push: { listings: newItem._id } } // adds the new item to the users listings
+    { $push: { listings: newItem._id } }
   );
 });
 
-// starting the server
+////////////
+// Sign-in route
+app.post("/", async (req, res) => {
+  // const { username, password } = req.body;
+  const username = "seth";
+  const password = "perritt";
+  console.log("Received username:", username); // This will log the username to the console
+
+  try {
+    const user = await User.findOne({ username });
+    console.log(user.password);
+    if (!user) {
+      return res.status(401).json({
+        message: "Invalid credentials (Not a valid user)",
+      });
+    }
+    const validPassword = "perritt" == user.password; // password, user.password
+    console.log(validPassword);
+    if (!validPassword) {
+      return res
+        .status(401)
+        .json({ message: "Invalid credentials (Not a valid password)" });
+    }
+    // Create a session to keep the user authenticated
+    req.session.user = user;
+    // Serve home.html after successful sign-in
+    res.sendFile(__dirname + "/public_html/home.html");
+  } catch (err) {
+    console.error("Error during authentication:", err.message);
+    res.status(500).send("An error occurred during authentication");
+  }
+});
+
+////////////
+
 app.listen(port, () => {
   console.log(`App listening on port http://localhost:${port}`);
 });
