@@ -10,7 +10,7 @@ const password = document.getElementById("password");
 const userSubmit = document.getElementById("userSubmit");
 const title = document.getElementById("title");
 const description = document.getElementById("description");
-const image = document.getElementById("image");
+const image = document.getElementById("imageName");
 const price = document.getElementById("price");
 const status = document.getElementById("status");
 const usernameItem = document.getElementById("usernameItem");
@@ -40,6 +40,8 @@ async function submitUser(e) {
 // takes form entries, creates item object and sends it to the server
 async function submitItem(e) {
   e.preventDefault();
+
+  // create item object
   const item = {
     title: title.value,
     description: description.value,
@@ -56,6 +58,14 @@ async function submitItem(e) {
     },
     body: JSON.stringify(item),
   });
+    // redirect if everything works
+    if (res.ok) {
+      
+      window.location.href = 'home.html';
+    } else {
+      // throw error if item doesnt submit correctly
+      console.error('Failed to submit item:', res.statusText);
+    }
 }
 
 //Event listener for form submit buttons
