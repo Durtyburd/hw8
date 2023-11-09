@@ -1,5 +1,17 @@
 /*
 Author: Hunter Copening, Seth Perritt
-Date: October 28
+Date: November 5
 Purpose: this is the CSS styles page for the html file
 */
+
+body {
+    background-color: #ddf2fd;
+  }
+  
+  h1 {
+    color: blue;
+  }
+  
+  label {
+    font-weight: bold;
+  }
