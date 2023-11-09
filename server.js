@@ -2,7 +2,6 @@
 // Date: October 28
 // Purpose: This javascript file is the server for our virtual marketplace
 
-
 //Constant Variables
 const express = require("express");
 const app = express();
@@ -10,6 +9,7 @@ const port = 3000;
 const mongoose = require("mongoose");
 const session = require("express-session");
 const cors = require("cors");
+const path = require("path");
 
 //Connecting to MongoDB
 mongoose.connect(
@@ -39,6 +39,7 @@ const User = mongoose.model("user", userSchema);
 app.use(express.static("public_html"));
 app.use(express.json());
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: "your_secret_key",
@@ -143,21 +144,16 @@ app.post("/add/items/:username", async (req, res) => {
 ////////////
 // Sign-in route
 app.post("/", async (req, res) => {
-  const { username, password } = req.body;
-  console.log(req.body);
-  // const username = "seth";
-  // const password = "perritt";
-  console.log("Received username:", username); // This will log the username to the console
-
+  const { username_login, password_login } = req.body;
+  const username = username_login;
   try {
     const user = await User.findOne({ username });
-    console.log(user.password);
     if (!user) {
       return res.status(401).json({
         message: "Invalid credentials (Not a valid user)",
       });
     }
-    const validPassword = password == user.password; // password, user.password
+    const validPassword = password_login == user.password; // password, user.password
     console.log(validPassword);
     if (!validPassword) {
       return res
