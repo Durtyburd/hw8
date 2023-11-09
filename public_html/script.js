@@ -106,8 +106,9 @@ async function performSignIn(e) {
     password: passwordLogin.value,
   };
 
+  console.log(auth);
   try {
-    const response = await fetch("/login", {
+    const response = await fetch("/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -127,6 +128,12 @@ async function performSignIn(e) {
   } catch (error) {
     console.error("Network error:", error);
   }
+  test();
+}
+
+function test() {
+  alert("hello");
+  console.log("hello");
 }
 
 userSubmitLogin.addEventListener("click", performSignIn);
