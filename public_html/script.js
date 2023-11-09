@@ -1,3 +1,9 @@
+// Author: Hunter Copening, Seth Perritt
+// Date: October 28
+// Purpose: This javascript file will take care of the webpages general functionality by updating
+// changes in real time onto the marketplace
+
+
 //Constants
 const username = document.getElementById("username");
 const password = document.getElementById("password");
