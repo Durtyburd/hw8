@@ -9,7 +9,7 @@ const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
 const session = require("express-session");
-const bcrypt = require("bcrypt");
+const cors = require("cors");
 
 //Connecting to MongoDB
 mongoose.connect(
@@ -38,8 +38,7 @@ const User = mongoose.model("user", userSchema);
 //Middleware
 app.use(express.static("public_html"));
 app.use(express.json());
-
-////////////
+app.use(cors());
 app.use(
   session({
     secret: "your_secret_key",
@@ -48,6 +47,7 @@ app.use(
   })
 );
 
+///////////////////
 // Function to require authentication
 function requireAuth(req, res, next) {
   if (!req.session.user) {
@@ -143,9 +143,10 @@ app.post("/add/items/:username", async (req, res) => {
 ////////////
 // Sign-in route
 app.post("/", async (req, res) => {
-  // const { username, password } = req.body;
-  const username = "seth";
-  const password = "perritt";
+  const { username, password } = req.body;
+  console.log(req.body);
+  // const username = "seth";
+  // const password = "perritt";
   console.log("Received username:", username); // This will log the username to the console
 
   try {
@@ -156,7 +157,7 @@ app.post("/", async (req, res) => {
         message: "Invalid credentials (Not a valid user)",
       });
     }
-    const validPassword = "perritt" == user.password; // password, user.password
+    const validPassword = password == user.password; // password, user.password
     console.log(validPassword);
     if (!validPassword) {
       return res
