@@ -18,7 +18,9 @@ const price = document.getElementById("price");
 const status = document.getElementById("status");
 const usernameItem = document.getElementById("usernameItem");
 const itemSubmit = document.getElementById("itemSubmit");
+const item = document.getElementById("item");
 
+//User Submit - add user
 async function submitUser(e) {
   e.preventDefault();
   const user = {
@@ -39,6 +41,7 @@ async function submitUser(e) {
   newUserCreated();
 }
 
+//Item Submit - add item
 async function submitItem(e) {
   e.preventDefault();
   const item = {
@@ -57,16 +60,14 @@ async function submitItem(e) {
     },
     body: JSON.stringify(item),
   });
-    // redirect if everything works
-    if (res.ok) {
-      
-      window.location.href = 'home.html';
-    } else {
-      // throw error if item doesnt submit correctly
-      console.error('Failed to submit item:', res.statusText);
-    }
+  if (res.ok) {
+    window.location.href = "home.html";
+  } else {
+    console.error("Failed to submit item:", res.statusText);
+  }
 }
 
+//Creates new user (just an alert basically)
 function newUserCreated() {
   alert("User Created");
   password.value = "";
@@ -75,7 +76,7 @@ function newUserCreated() {
 
 //Event listener for form submit buttons
 userSubmit.addEventListener("click", submitUser);
-itemSubmit.addEventListener("click", submitItem);
+item.addEventListener("click", submitItem);
 
 ////
 
@@ -97,37 +98,37 @@ itemSubmit.addEventListener("click", submitItem);
 
 ////
 
-// Example client-side JavaScript code using fetch API to handle sign-in
 async function performSignIn(e) {
-  e.preventDefault();
+  e.preventDefault(); // prevent the default form submission behavior
 
   const auth = {
-    username: document.getElementById("username").value,
-    password: document.getElementById("password").value,
+    username: usernameLogin.value,
+    password: passwordLogin.value,
   };
 
   try {
-    const response = await fetch("/", {
+    const response = await fetch("/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(auth),
+      body: JSON.stringify(auth), // convert the auth object into a JSON string
     });
+
+    // Here, handle the response accordingly
     if (response.ok) {
-      // If the sign-in was successful, reload the page to reflect the change
-      window.location.reload();
+      const data = await response.json(); // or handle other response types if necessary
+      console.log(data);
+      // handle redirection if necessary, or other logic upon successful response
     } else {
-      // If sign-in was not successful, handle errors here
-      const errorText = await response.text();
-      alert(errorText);
+      // handle errors, for example, show a message to the user
+      console.error("Error:", response.statusText);
     }
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Network error:", error);
   }
 }
 
-// Assuming you want to add this to a click event on a button with the id 'signInButton'
 userSubmitLogin.addEventListener("click", performSignIn);
 
 //////////
