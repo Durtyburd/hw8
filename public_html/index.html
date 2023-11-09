@@ -3,46 +3,43 @@ Author: Hunter Copening, Seth Perritt
 Date: October 28
 Purpose: This will be the html document the Ostaa marketplace
  --> 
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8">
     <title>Ostaa</title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>Add User</h1>
-    <form method="post">
-      <label for="username">Username:</label><br>
-      <input type="text" id="username" name="username" required><br>
+    <h1>Login</h1>
+    <form method="post" action="" id="userSubmit_login">
+      <label for="username_login">Username:</label><br />
+      <input
+        type="text"
+        id="username_login"
+        name="username_login"
+        required
+      /><br />
 
-      <label for="password">Password:</label><br>
-      <input type="password" id="password" name="password" required><br>
+      <label for="password_login">Password:</label><br />
+      <input
+        type="password"
+        id="password_login"
+        name="password_login"
+        required
+      /><br />
 
-      <input id="userSubmit" type="submit" value="Add User">
+      <input type="submit" value="Login" />
     </form>
 
-    <h1>Add Item</h1>
-    <form method="post">
-      <label for="title">Title:</label><br>
-      <input type="text" id="title" name="title" required ><br>
+    <h1>Add User</h1>
+    <form method="post" action="">
+      <label for="username">Username:</label><br />
+      <input type="text" id="username" name="username" required /><br />
 
-      <label for="description">Description:</label><br>
-      <textarea id="description" name="description" required></textarea><br>
+      <label for="password">Password:</label><br />
+      <input type="password" id="password" name="password" required /><br />
 
-      <label for="image">Image:</label><br>
-      <input type="text" id="image" name="image"><br>
-
-      <label for="price">Price:</label><br>
-      <input type="number" id="price" name="price" step="0.01" required><br>
-
-      <label for="status">Status:</label><br>
-      <input type="text" id="status" name="status"><br>
-
-      <label for="usernameItem">Username:</label><br>
-      <input type="text" id="usernameItem" name="username" required><br>
-
-      <input id="itemSubmit" type="submit" value="Add Item">
+      <input id="userSubmit" type="submit" value="Add User" />
     </form>
     <script src="script.js" async defer></script>
   </body>
